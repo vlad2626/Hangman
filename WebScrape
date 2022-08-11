@@ -1,0 +1,17 @@
+import requests, bs4
+
+
+
+
+
+
+#soup.select('td > th') all TD elements that are directly in a th element.
+class WebScrape:
+    Word= []
+    hint = []
+
+    def main(self):
+
+
+        ws = WebScrape() # instantiate class
+        res = requests.get('http://atcomputingschool.co.uk/dictionary.html')
