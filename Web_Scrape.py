@@ -23,6 +23,7 @@ class Web_Scrape:
         hint = []
         gameWords = {}
 
+
         #ws = WebScrape() # instantiate class
         res = self.requests.get('http://atcomputingschool.co.uk/dictionary.html')
         res.raise_for_status()
@@ -35,7 +36,16 @@ class Web_Scrape:
 
         self.merge(self, words, hint, gameWords)
 
-        self.playGame(self, words, hint, gameWords)
+        print('Welcome to the Deadly Trap\n'
+              '\nPlay for your Life !!! MUhahahahahahahah\n'
+              '\nyou Get 7 Tries \n'
+              '\n1 hint per word \n'
+              '\nPress 1:Guess the whole word\n '
+              '\nPress 2:To skip word \n'
+              '\nPress 3 to end game\n'
+              '\nnow let us Begin!!\n')
+        tries = 0
+        self.playGame(self, words, hint, tries)
 
 
 
@@ -69,28 +79,69 @@ class Web_Scrape:
 
 
 
-    def playGame(self,words, hint, gameWords):
+    def playGame(self,words, hint, tries):
 
 
-        tries = 0
-        #for i in range(8):
+        #checks to see if the user is in the middle of guessing , if not , pulls a word.
+        if tries ==0:
+            randomNum = self.random.randint(1, 87)
+            answer = words[randomNum]
+        else:
+            pass
 
 
-        #while True:
-        randomNum = self.random.randint(1, 87)
-        print('Welcome to the Deadly Trap\n'
-              'Play for your Life !!! MUhahahahahahahah'
-              '\nyou Get 7 Tries '
-              '\n1 hint per word '
-              '\nif you want to guess the whole word , press 1.'
-              '\nTo skip word pres 2'
-              '\nPress 3 to end game'
-              '\nnow let us Begin!!')
 
 
-        answer = words[randomNum]
+        while True:
+            userAnswer= self.generateWord(self,words, hint, randomNum)
 
-        print("Hint:" + hint[randomNum] +" \nAnswer: " + words[randomNum])
+
+            if userAnswer =='1':
+                self.guessWord(self,userAnswer, answer,tries )
+            elif userAnswer =='2':
+                self.playGame(self,words,hint)
+            elif userAnswer == '3':
+                break
+            else:
+                self.checkUserLetter()
+
+    def guessWord(self,userAnswer, answer,tries):
+        #this method validates the user answer
+        # it starts by check if it is correct and if its not correct
+        #     it adds to tries and give user the option to restart
+        if userAnswer == answer:
+            print("Congratulations !! you got it")
+        else:
+            tries += 1
+            userAnswer = input("Whole Word >")
+            if userAnswer == answer:
+                print("You got it !!!")
+                return
+            else:
+                tries += 1
+                print("Better luck next time\n "
+                      "Try again ? (Y/N)")
+                replay= input(">").casefold()
+                while tries <="8":
+                    if replay == "y":
+                        print("Try again")
+                        userAnswer = input(">")
+                        if tries >"8":
+                            return
+                        else:
+                            self.guessWord(self,userAnswer, answer,tries)
+
+
+
+
+    def generateWord(self,words, hint, randomNum):
+        print("Hint:" + hint[randomNum] + " \nAnswer: " + words[randomNum] + "\n")
+        userAnswer = input('>')
+        return userAnswer
+
+
+
+
 
 
 
