@@ -95,9 +95,13 @@ class Web_Scrape:
         while True:
             userAnswer= self.generateWord(self,words, hint, randomNum)
 
-
             if userAnswer =='1':
-                self.guessWord(self,userAnswer, answer,tries )
+                replay = self.guessWord(self,userAnswer, answer,tries )
+                if replay == "y":
+                    self.playGame(self, words, hint)
+                else:
+                    print("Thank you for playing")
+                    break
             elif userAnswer =='2':
                 self.playGame(self,words,hint)
             elif userAnswer == '3':
@@ -109,9 +113,14 @@ class Web_Scrape:
         #this method validates the user answer
         # it starts by check if it is correct and if its not correct
         #     it adds to tries and give user the option to restart
+
+
         if userAnswer == answer:
-            print("Congratulations !! you got it")
+            print("Congratulations !! you got it \n Do you want to keep playing (Y/N) ")
+            replay= input('>').casefold()
+
         else:
+            # regardless if this is fist atempt or not , the user gets to try again
             tries += 1
             userAnswer = input("Whole Word >")
             if userAnswer == answer:
@@ -122,14 +131,21 @@ class Web_Scrape:
                 print("Better luck next time\n "
                       "Try again ? (Y/N)")
                 replay= input(">").casefold()
-                while tries <="8":
+
+                while tries <= 8:
                     if replay == "y":
                         print("Try again")
                         userAnswer = input(">")
                         if tries >"8":
+                            print("Sorry , you ran out of tries")
                             return
                         else:
-                            self.guessWord(self,userAnswer, answer,tries)
+                            self.guessWord(self,userAnswer, answer,tries)# user neeeds to try again ,
+                    else:
+                        break
+            return replay
+
+
 
 
 
