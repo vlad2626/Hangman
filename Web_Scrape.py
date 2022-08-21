@@ -1,6 +1,8 @@
 
 # soup.select('td > th') all TD elements that are directly in a th element.
 from tkinter import Tk
+from tkinter import *
+from tkinter.ttk import Entry
 
 
 class Web_Scrape:
@@ -13,10 +15,46 @@ class Web_Scrape:
 
     #create grint and frame
     root= Tk()
-    frame = ttk.Frame(root, padding=(4,4,10,100))
-    frame.grid(column=4, row = 4)
+    frame = ttk.Frame(root, padding=(4,4))
+    frame.grid(column=4, row = 4,sticky=N +S +E +W)
     root.grid_columnconfigure(0)
     root.grid_rowconfigure((0))
+
+    #column 1
+    rules_name = ttk.Label(frame, text = "Rules -")
+    rules_explained = ttk.Label(frame, text = '\nYou get 7 tries \n'
+              '\n-1 hint per word \n'
+              '\n-Press 1:Guess the whole word\n '
+              '\n-Press 2:Guess by Letter \n'
+              '\n-Press 3:To skip word \n'
+              '\n-Press 4 to end game\n'
+              '\n-now let us Begin!!\n'
+            '\n-Default is guess by word', font=6)
+    hint=ttk.Label(frame, text= "Hint :")
+    userInputLabel= ttk.Label(frame,text = "Input")
+    #grid column 1
+    rules_name.grid(column =0, row = 0, padx = 10, pady = 10)
+    rules_explained.grid(column=0, row=1, padx=10, pady=10)
+    hint.grid(column =0, row = 3, padx = 10, pady = 10)
+    userInputLabel.grid(column =0, row = 4, padx = 10, pady = 10)
+
+    #column 2
+    gameNameLbl= ttk.Label(frame, text= "Valmir's Hangman")
+    displayAnswerlbl= ttk.Label(frame, text= "_ _ _ _ _ _ _")
+    displayHintlbl = ttk.Label(frame, text = "Hint: ")
+    displayMan= ttk.Label(frame,text=" man placeholder")
+    userInputtb= Entry(frame, background="White", justify="left")
+
+    # grid colum 2
+    gameNameLbl.grid(column =1, row = 0, padx = 10, pady = 10)
+    displayAnswerlbl.grid(column =1, row = 1, padx = 10, pady = 10)
+    displayMan.grid(column =1, row = 2, padx = 10, pady = 10)
+    displayHintlbl.grid(column =0, row = 3, padx = 10, pady = 10)
+    userInputtb.grid(column =1, row = 4, padx = 10, pady = 10)
+
+
+
+
 
 
 
@@ -78,15 +116,8 @@ class Web_Scrape:
 
     def playGame(self ,words, hint, tries):
 
-        print(
-              '\nyou Get 7 Tries \n'
-              '\n1 hint per word \n'
-              '\nPress 1:Guess the whole word\n '
-              '\nPress 2:Guess by Letter \n'
-              '\nPress 3:To skip word \n'
-              '\nPress 4 to end game\n'
-              '\nnow let us Begin!!\n'
-            '\n Default is guess by word')
+
+
 
         # checks to see if the user is in the middle of guessing , if not , pulls a word.
         tries = 0
