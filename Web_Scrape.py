@@ -12,12 +12,12 @@ class Web_Scrape:
 
 
     #create grint and frame
-    # root= Tk()
-    # frame = ttk.Frame(root, padding=(4,4,10,12))
-    # frame.grid(column=4, row = 4)
-    # root.grid_columnconfigure(0, weight = 1)
-    # root.grid_rowconfigure((0))
-    # root.mainloop()
+    root= Tk()
+    frame = ttk.Frame(root, padding=(4,4,10,100))
+    frame.grid(column=4, row = 4)
+    root.grid_columnconfigure(0)
+    root.grid_rowconfigure((0))
+
 
     @classmethod
     def main(self):
@@ -218,9 +218,7 @@ class Web_Scrape:
             # populate the end of the list to make it equal to the actual answer
             # check the index and if it not === add a " "
 
-
-
-
+    root.mainloop()
 
 
 
