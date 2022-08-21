@@ -19,6 +19,7 @@ class Web_Scrape:
     root.grid_rowconfigure((0))
 
 
+
     @classmethod
     def main(self):
 
