@@ -33,24 +33,7 @@ class Web_Scrape:
     hint=ttk.Label(frame, text= "Hint :")
     userInputLabel= ttk.Label(frame,text = "Input")
     #grid column 1
-    rules_name.grid(column =0, row = 0, padx = 10, pady = 10)
-    rules_explained.grid(column=0, row=1, padx=10, pady=10)
-    hint.grid(column =0, row = 3, padx = 10, pady = 10)
-    userInputLabel.grid(column =0, row = 4, padx = 10, pady = 10)
 
-    #column 2
-    gameNameLbl= ttk.Label(frame, text= "Valmir's Hangman")
-    displayAnswerlbl= ttk.Label(frame, text= "_ _ _ _ _ _ _")
-    displayHintlbl = ttk.Label(frame, text = "Hint: ")
-    displayMan= ttk.Label(frame,text=" man placeholder")
-    userInputtb= Entry(frame, background="White", justify="left")
-
-    # grid colum 2
-    gameNameLbl.grid(column =1, row = 0, padx = 10, pady = 10)
-    displayAnswerlbl.grid(column =1, row = 1, padx = 10, pady = 10)
-    displayMan.grid(column =1, row = 2, padx = 10, pady = 10)
-    displayHintlbl.grid(column =0, row = 3, padx = 10, pady = 10)
-    userInputtb.grid(column =1, row = 4, padx = 10, pady = 10)
 
 
 
@@ -124,7 +107,10 @@ class Web_Scrape:
         randomNum = self.random.randint(1, 87)
         answer = words[randomNum]
 
-
+        self.rules_name.grid(column=0, row=0, padx=10, pady=10)
+        self.rules_explained.grid(column=0, row=1, padx=10, pady=10)
+        self.hint.grid(column=0, row=3, padx=10, pady=10)
+        self.userInputLabel.grid(column=0, row=4, padx=10, pady=10)
 
 
 
@@ -192,9 +178,13 @@ class Web_Scrape:
                         break
             return replay
 
+
+
     # generates a word to guess
     def generateWord(self, words, hint, randomNum):
         print("Hint:" + hint[randomNum] + "\n Answer: " + words[randomNum] + "\n")
+        summary = self.ttk.Label(text=hint[randomNum])
+        summary.grid(column =0, row = 3, padx = 10, pady = 10)
         # nAnswer: " + words[randomNum] + "\n")
         userAnswer = input('>')
         return userAnswer
