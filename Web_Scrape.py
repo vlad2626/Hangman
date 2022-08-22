@@ -14,24 +14,7 @@ class Web_Scrape:
 
 
     #create grint and frame
-    root= Tk()
-    frame = ttk.Frame(root, padding=(4,4))
-    frame.grid(column=4, row = 4,sticky=N +S +E +W)
-    root.grid_columnconfigure(0)
-    root.grid_rowconfigure((0))
 
-    #column 1
-    rules_name = ttk.Label(frame, text = "Rules -")
-    rules_explained = ttk.Label(frame, text = '\nYou get 7 tries \n'
-              '\n-1 hint per word \n'
-              '\n-Press 1:Guess the whole word\n '
-              '\n-Press 2:Guess by Letter \n'
-              '\n-Press 3:To skip word \n'
-              '\n-Press 4 to end game\n'
-              '\n-now let us Begin!!\n'
-            '\n-Default is guess by word', font=6)
-    hint=ttk.Label(frame, text= "Hint :")
-    userInputLabel= ttk.Label(frame,text = "Input")
     #grid column 1
 
 
@@ -99,7 +82,24 @@ class Web_Scrape:
 
     def playGame(self ,words, hint, tries):
 
+        root = Tk()
+        frame = self.ttk.Frame(root, padding=(4, 4))
+        frame.grid(column=4, row=4, sticky=N + S + E + W)
+        root.grid_columnconfigure(0)
+        root.grid_rowconfigure((0))
 
+        # column 1
+        rules_name = self.ttk.Label(frame, text="Rules -")
+        rules_explained = self.ttk.Label(frame, text='\nYou get 7 tries \n'
+                                                '\n-1 hint per word \n'
+                                                '\n-Press 1:Guess the whole word\n '
+                                                '\n-Press 2:Guess by Letter \n'
+                                                '\n-Press 3:To skip word \n'
+                                                '\n-Press 4 to end game\n'
+                                                '\n-now let us Begin!!\n'
+                                                '\n-Default is guess by word', font=6)
+        hint = self.ttk.Label(frame, text="Hint :")
+        userInputLabel = self.ttk.Label(frame, text="Input")
 
 
         # checks to see if the user is in the middle of guessing , if not , pulls a word.
@@ -107,10 +107,11 @@ class Web_Scrape:
         randomNum = self.random.randint(1, 87)
         answer = words[randomNum]
 
-        self.rules_name.grid(column=0, row=0, padx=10, pady=10)
-        self.rules_explained.grid(column=0, row=1, padx=10, pady=10)
-        self.hint.grid(column=0, row=3, padx=10, pady=10)
-        self.userInputLabel.grid(column=0, row=4, padx=10, pady=10)
+
+        rules_name.grid(column=0, row=0, padx=10, pady=10)
+        rules_explained.grid(column=0, row=1, padx=10, pady=10)
+        hint.grid(column=0, row=3, padx=10, pady=10)
+        userInputLabel.grid(column=0, row=4, padx=10, pady=10)
 
 
 
@@ -134,6 +135,8 @@ class Web_Scrape:
                 break
             else:
                 self.guessWord(self,"1", answer, tries)
+
+        root.mainloop()
 
     # this method validates user answer
     def guessWord(self ,userAnswer, answer ,tries):
@@ -182,8 +185,9 @@ class Web_Scrape:
 
     # generates a word to guess
     def generateWord(self, words, hint, randomNum):
-        print("Hint:" + hint[randomNum] + "\n Answer: " + words[randomNum] + "\n")
-        summary = self.ttk.Label(text=hint[randomNum])
+        #print("Hint:" + hint[randomNum] + "\n Answer: " + words[randomNum] + "\n")
+        a = hint[randomNum]
+        summary = self.ttk.Label(text=a)
         summary.grid(column =0, row = 3, padx = 10, pady = 10)
         # nAnswer: " + words[randomNum] + "\n")
         userAnswer = input('>')
@@ -240,7 +244,7 @@ class Web_Scrape:
             # populate the end of the list to make it equal to the actual answer
             # check the index and if it not === add a " "
 
-    root.mainloop()
+
 
     #pushing to master
 
