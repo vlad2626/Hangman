@@ -232,10 +232,7 @@ class Web_Scrape:
                 break
 
 
-            # display the letters guessed in the correct place
-            # print correct guess in the correct index. in the index where the worst is not correct add a space
-            # populate the end of the list to make it equal to the actual answer
-            # check the index and if it not === add a " "
+
 
 
 
