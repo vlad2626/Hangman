@@ -1,21 +1,19 @@
 
 # soup.select('td > th') all TD elements that are directly in a th element.
-from tkinter import Tk
-from tkinter import *
-from tkinter.ttk import Entry
+import requests
+import bs4
+import random
+
+
+
+
 
 
 class Web_Scrape:
-    import requests
-    import bs4
-    import random
-    from tkinter import ttk
 
 
 
-    #create grint and frame
 
-    #grid column 1
 
 
 
@@ -32,11 +30,11 @@ class Web_Scrape:
         gameWords = {}
 
         # ws = WebScrape() # instantiate class
-        res = self.requests.get('http://atcomputingschool.co.uk/dictionary.html')
+        res = requests.get('http://atcomputingschool.co.uk/dictionary.html')
         res.raise_for_status()
 
         # bs4 is the web scraper,
-        webpage= self.bs4.BeautifulSoup(res.text ,'html.parser')
+        webpage= bs4.BeautifulSoup(res.text ,'html.parser')
 
 
         self.scrape(webpage, words, hint)
@@ -80,44 +78,37 @@ class Web_Scrape:
 
 
 
+
+
+
+
     def playGame(self ,words, hint, tries):
 
-        root = Tk()
-        frame = self.ttk.Frame(root, padding=(4, 4))
-        frame.grid(column=4, row=4, sticky=N + S + E + W)
-        root.grid_columnconfigure(0)
-        root.grid_rowconfigure((0))
-
-        # column 1
-        rules_name = self.ttk.Label(frame, text="Rules -")
-        rules_explained = self.ttk.Label(frame, text='\nYou get 7 tries \n'
-                                                '\n-1 hint per word \n'
-                                                '\n-Press 1:Guess the whole word\n '
-                                                '\n-Press 2:Guess by Letter \n'
-                                                '\n-Press 3:To skip word \n'
-                                                '\n-Press 4 to end game\n'
-                                                '\n-now let us Begin!!\n'
-                                                '\n-Default is guess by word', font=6)
-        hint = self.ttk.Label(frame, text="Hint :")
-        userInputLabel = self.ttk.Label(frame, text="Input")
 
 
         # checks to see if the user is in the middle of guessing , if not , pulls a word.
         tries = 0
-        randomNum = self.random.randint(1, 87)
+        randomNum = random.randint(1, 87)
         answer = words[randomNum]
+        print(
+            '\nyou Get 7 Tries \n'
+            '\n1 hint per word \n'
+            '\nPress 1:Guess the whole word\n '
+            '\nPress 2:Guess by Letter \n'
+            '\nPress 3:To skip word \n'
+            '\nPress 4 to end game\n'
+            '\nnow let us Begin!!\n'
+            '\n Default is guess by word')
 
 
-        rules_name.grid(column=0, row=0, padx=10, pady=10)
-        rules_explained.grid(column=0, row=1, padx=10, pady=10)
-        hint.grid(column=0, row=3, padx=10, pady=10)
-        userInputLabel.grid(column=0, row=4, padx=10, pady=10)
 
 
 
 
         while True:
+
             userAnswer= self.generateWord(self ,words, hint, randomNum)
+
 
             if userAnswer =='1':
                 replay = self.guessWord(self ,userAnswer, answer ,tries )
@@ -136,7 +127,8 @@ class Web_Scrape:
             else:
                 self.guessWord(self,"1", answer, tries)
 
-        root.mainloop()
+
+
 
     # this method validates user answer
     def guessWord(self ,userAnswer, answer ,tries):
@@ -175,6 +167,7 @@ class Web_Scrape:
                 while tries <= 9:
                     if replay != "y" or tries == 9:
                         print("End of game")
+                        break
                     elif replay == "y" and tries <= 9:
                             self.guessWord(self, userAnswer, answer, tries)  # user neeeds to try again ,
                     else:
@@ -185,11 +178,10 @@ class Web_Scrape:
 
     # generates a word to guess
     def generateWord(self, words, hint, randomNum):
-        #print("Hint:" + hint[randomNum] + "\n Answer: " + words[randomNum] + "\n")
-        a = hint[randomNum]
-        summary = self.ttk.Label(text=a)
-        summary.grid(column =0, row = 3, padx = 10, pady = 10)
-        # nAnswer: " + words[randomNum] + "\n")
+        print("Hint:" + hint[randomNum])
+        a = words[randomNum]
+
+
         userAnswer = input('>')
         return userAnswer
 
@@ -237,6 +229,7 @@ class Web_Scrape:
                 print("Congrats you Won or" )
             elif tries == 9:
                 print("Ran out of tries!!!!")
+                break
 
 
             # display the letters guessed in the correct place
@@ -244,9 +237,6 @@ class Web_Scrape:
             # populate the end of the list to make it equal to the actual answer
             # check the index and if it not === add a " "
 
-
-
-    #pushing to master
 
 
 
