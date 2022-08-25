@@ -1,8 +1,12 @@
 
 # soup.select('td > th') all TD elements that are directly in a th element.
+import tkinter as tk
+from tkinter import Tk
+
 import requests
 import bs4
 import random
+from DisplayPages import Display
 
 
 
@@ -10,7 +14,8 @@ import random
 
 
 class Web_Scrape:
-
+    import tkinter
+    from tkinter import ttk
 
 
 
@@ -28,6 +33,7 @@ class Web_Scrape:
         words = []
         hint = []
         gameWords = {}
+        dispInput, stickyMan, displayWord = " ", " " , " "
 
         # ws = WebScrape() # instantiate class
         res = requests.get('http://atcomputingschool.co.uk/dictionary.html')
@@ -41,10 +47,11 @@ class Web_Scrape:
 
         self.merge(self, words, hint, gameWords)
 
-        print( 'Welcome to the Deadly Trap\n'
-              '\nPlay for your Life !!! MUhahahahahahahah\n')
+        #print( 'Welcome to the Deadly Trap\n'
+             # '\nPlay for your Life !!! MUhahahahahahahah\n')
         tries = 0
-        self.playGame(self, words, hint, tries)
+        #self.playGame(self, words, hint, tries)
+        self.display(self,dispInput,stickyMan,displayWord,words, hint)
 
 
 
@@ -86,10 +93,15 @@ class Web_Scrape:
 
 
 
+
+
+        replay= ""
+        playing = True
         # checks to see if the user is in the middle of guessing , if not , pulls a word.
         tries = 0
         randomNum = random.randint(1, 87)
         answer = words[randomNum]
+
         print(
             '\nyou Get 7 Tries \n'
             '\n1 hint per word \n'
@@ -118,14 +130,21 @@ class Web_Scrape:
                     print("Thank you for playing")
                     break
             elif userAnswer =='2':
-                self.guessByLetter(self ,answer ,tries)
+                replay=self.guessByLetter(self ,answer ,tries)
             elif userAnswer =='3':
                 self.playGame(self ,words ,hint, 0)
             elif userAnswer == '4':
                 print("Thank you for playing")
                 break
             else:
-                self.guessWord(self,"1", answer, tries)
+                replay=self.guessWord(self,"1", answer, tries)
+
+            if replay == "n":
+                print("THank you for playing . ")
+                break
+
+
+
 
 
 
@@ -185,7 +204,7 @@ class Web_Scrape:
         userAnswer = input('>')
         return userAnswer
 
-    def guessByLetter(self, answer, tries):
+    def guessByLetter(self, answer, tries, DisplayObj):
         # this method user picks a letter
         #  validate letter wheather its a vowel or consonant
         # tells the user if its right and the number of tries.
@@ -221,7 +240,10 @@ class Web_Scrape:
 
             # Validates the found letter , add it to
             if foundLetter:
-                print("Correct !! : {}".format(correctGuess))
+                letters = ""
+                for j in correctGuess:
+                    letters += j
+                print("Correct !! : {}".format(letters))
             else:
                 tries += 1
                 print("No Dice \n The man lost {} body parts".format(tries))
@@ -230,6 +252,45 @@ class Web_Scrape:
             elif tries == 9:
                 print("Ran out of tries!!!!")
                 break
+
+            print("Play again ? y/n")
+            replay = input(">")
+
+            return replay
+
+
+    def display(self,input,stickyMan, displayWord,words,hint):
+        root = Tk()
+        frame= tk.Frame(root, padx=7, pady=7)
+        root.title("Hangman Game")
+        frame.grid(column=0, row =0)
+        root.grid_columnconfigure(2, weight=1)
+        root.grid_rowconfigure(2, weight=1)
+
+        lblRules =tk.Label(frame, text = "awf")
+        lblInputName= tk.Label(frame, text=" Input: ")
+        lblHintName = tk.Label(frame, text = "Hint: ")
+        lblDisplayWord= tk.Label(frame, text=displayWord)
+        lblman= tk.Label(frame, text = " Placeholder")
+        lblHintExplained = tk.Label(frame, text = "Placeholder")
+        entryInput = tk.Entry(frame)
+
+
+
+
+
+        lblRules.grid(column=1, row=2)
+        lblHintName.grid(column=1, row=4)
+        lblInputName.grid(column=1, row=5)
+        lblDisplayWord.grid(column=2, row = 2)
+        lblman.grid(column=2, row=3)
+        lblHintExplained.grid(column=2, row=4)
+        entryInput.grid(column=2,row=5)
+        root.mainloop()
+
+        self.playGame(self,words,hint=[],tries=0)
+
+
 
 
 
