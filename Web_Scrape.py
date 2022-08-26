@@ -2,6 +2,7 @@
 # soup.select('td > th') all TD elements that are directly in a th element.
 import tkinter as tk
 from tkinter import Tk
+from typing import List
 
 import requests
 import bs4
@@ -47,10 +48,13 @@ class Web_Scrape:
 
         self.merge(self, words, hint, gameWords)
 
+        print(len(hint))
+
         #print( 'Welcome to the Deadly Trap\n'
              # '\nPlay for your Life !!! MUhahahahahahahah\n')
         tries = 0
         #self.playGame(self, words, hint, tries)
+
         self.display(self,dispInput,stickyMan,displayWord,words, hint)
 
 
@@ -93,7 +97,7 @@ class Web_Scrape:
 
 
 
-
+        toDisplay= [" ", " " , " "]
 
         replay= ""
         playing = True
@@ -101,7 +105,7 @@ class Web_Scrape:
         tries = 0
         randomNum = random.randint(1, 87)
         answer = words[randomNum]
-
+        print(randomNum)
         print(
             '\nyou Get 7 Tries \n'
             '\n1 hint per word \n'
@@ -111,40 +115,24 @@ class Web_Scrape:
             '\nPress 4 to end game\n'
             '\nnow let us Begin!!\n'
             '\n Default is guess by word')
+        userAnswer = " "
+        #while true
+        self.generateWord(self ,words, hint, randomNum)
+        if userAnswer =='1':
+             self.guessWord(self ,userAnswer, answer ,tries )
+        elif userAnswer =='2':
+            self.guessByLetter(self ,answer ,tries,toDisplay)
+        elif userAnswer =='3':
+            self.playGame(self ,words ,hint, 0)
+        elif userAnswer == '4':
+            print("Thank you for playing")
+        else:
+           toDisplay= self.guessByLetter(self, answer, tries,toDisplay)
 
 
 
 
-
-
-        while True:
-
-            userAnswer= self.generateWord(self ,words, hint, randomNum)
-
-
-            if userAnswer =='1':
-                replay = self.guessWord(self ,userAnswer, answer ,tries )
-                if replay == "y":
-                    self.playGame(self, words, hint)
-                else:
-                    print("Thank you for playing")
-                    break
-            elif userAnswer =='2':
-                replay=self.guessByLetter(self ,answer ,tries)
-            elif userAnswer =='3':
-                self.playGame(self ,words ,hint, 0)
-            elif userAnswer == '4':
-                print("Thank you for playing")
-                break
-            else:
-                replay=self.guessWord(self,"1", answer, tries)
-
-            if replay == "n":
-                print("THank you for playing . ")
-                break
-
-
-
+        return toDisplay
 
 
 
@@ -197,20 +185,18 @@ class Web_Scrape:
 
     # generates a word to guess
     def generateWord(self, words, hint, randomNum):
-        print("Hint:" + hint[randomNum])
+
         a = words[randomNum]
 
-
-        userAnswer = input('>')
-        return userAnswer
-
-    def guessByLetter(self, answer, tries, DisplayObj):
+    def guessByLetter(self, answer, tries, toDisplay):
         # this method user picks a letter
         #  validate letter wheather its a vowel or consonant
         # tells the user if its right and the number of tries.
         # if guessed corectly user wins hangman ,
         # if not man is hanged
         # this needs to be in a while loop
+        toDisplay= ["Testing", " " , " "]
+        letters = ""
         print("Guess by letter , you have 9 tries, press 0 at any time to guess the whole world. ")
         correctGuess = []
         correctLetters = list(answer)
@@ -229,7 +215,7 @@ class Web_Scrape:
 
             foundLetter = False
             index = -1
-
+            # checks found letter against the correct lettrs.
             for i in range(len(answer)):
                 index += 1
                 if correctLetters[i].lower() == letterGuessed:
@@ -238,9 +224,9 @@ class Web_Scrape:
                     correctGuess[index] = correctLetters[index]
 
 
-            # Validates the found letter , add it to
+            # Further validation
             if foundLetter:
-                letters = ""
+
                 for j in correctGuess:
                     letters += j
                 print("Correct !! : {}".format(letters))
@@ -253,13 +239,19 @@ class Web_Scrape:
                 print("Ran out of tries!!!!")
                 break
 
-            print("Play again ? y/n")
-            replay = input(">")
+            # print("Play again ? y/n")
+            # replay = input(">")
+            toDisplayLetter = ""
+            for i in correctGuess:
+                toDisplayLetter += i
+            toDisplay[1] = toDisplayLetter # update index 1 to show the letters
 
-            return replay
+            return toDisplay
 
 
     def display(self,input,stickyMan, displayWord,words,hint):
+        toDisplay = [] # list to take in items that i will dynamically show.
+
         root = Tk()
         frame= tk.Frame(root, padx=7, pady=7)
         root.title("Hangman Game")
@@ -267,13 +259,21 @@ class Web_Scrape:
         root.grid_columnconfigure(2, weight=1)
         root.grid_rowconfigure(2, weight=1)
 
-        lblRules =tk.Label(frame, text = "awf")
+        toDisplay = self.playGame(self, words, hint, tries=0)
+        print(toDisplay)
+
+        lblRules =tk.Label(frame, text = "Rules")
         lblInputName= tk.Label(frame, text=" Input: ")
         lblHintName = tk.Label(frame, text = "Hint: ")
-        lblDisplayWord= tk.Label(frame, text=displayWord)
+        lblDisplayWord= tk.Label(frame, text=toDisplay[0])
         lblman= tk.Label(frame, text = " Placeholder")
         lblHintExplained = tk.Label(frame, text = "Placeholder")
         entryInput = tk.Entry(frame)
+        btnSubmit = tk.Button(frame, text = "Save", background="Green")
+        btnQuit = tk.Button(frame, text="Quit,", background = "Red")
+
+
+
 
 
 
@@ -286,9 +286,11 @@ class Web_Scrape:
         lblman.grid(column=2, row=3)
         lblHintExplained.grid(column=2, row=4)
         entryInput.grid(column=2,row=5)
+        btnSubmit.grid(column = 3, row = 6)
+        btnQuit.grid(column=4, row = 6)
         root.mainloop()
 
-        self.playGame(self,words,hint=[],tries=0)
+
 
 
 
