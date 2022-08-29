@@ -34,7 +34,7 @@ class Web_Scrape:
         words = []
         hint = []
         gameWords = {}
-        dispInput, stickyMan, displayWord = " ", " " , " "
+
 
         # ws = WebScrape() # instantiate class
         res = requests.get('http://atcomputingschool.co.uk/dictionary.html')
@@ -42,20 +42,9 @@ class Web_Scrape:
 
         # bs4 is the web scraper,
         webpage= bs4.BeautifulSoup(res.text ,'html.parser')
-
-
         self.scrape(webpage, words, hint)
-
         self.merge(self, words, hint, gameWords)
-
-        print(len(hint))
-
-        #print( 'Welcome to the Deadly Trap\n'
-             # '\nPlay for your Life !!! MUhahahahahahahah\n')
-        tries = 0
-        #self.playGame(self, words, hint, tries)
-
-        self.display(self,dispInput,stickyMan,displayWord,words, hint)
+        self.display(self,words, hint)
 
 
 
@@ -93,11 +82,11 @@ class Web_Scrape:
 
 
 
-    def playGame(self ,words, hint, tries):
+    def playGame(self ,words, hint, tries,toDisplay):
 
 
+        # word to be displayed , random num , stickman
 
-        toDisplay= [" ", " " , " "]
 
         replay= ""
         playing = True
@@ -105,7 +94,10 @@ class Web_Scrape:
         tries = 0
         randomNum = random.randint(1, 87)
         answer = words[randomNum]
-        print(randomNum)
+        print(answer)
+        print(hint[randomNum])
+        toDisplay.append(answer)
+        toDisplay.append(randomNum)
         print(
             '\nyou Get 7 Tries \n'
             '\n1 hint per word \n'
@@ -195,7 +187,7 @@ class Web_Scrape:
         # if guessed corectly user wins hangman ,
         # if not man is hanged
         # this needs to be in a while loop
-        toDisplay= ["Testing", " " , " "]
+
         letters = ""
         print("Guess by letter , you have 9 tries, press 0 at any time to guess the whole world. ")
         correctGuess = []
@@ -241,16 +233,17 @@ class Web_Scrape:
 
             # print("Play again ? y/n")
             # replay = input(">")
-            toDisplayLetter = ""
-            for i in correctGuess:
-                toDisplayLetter += i
-            toDisplay[1] = toDisplayLetter # update index 1 to show the letters
+            # toDisplayLetter = ""
+            # for i in correctGuess:
+            #     toDisplayLetter += i
+            # toDisplay[] = toDisplayLetter # update index 1 to show the letters
 
             return toDisplay
 
 
-    def display(self,input,stickyMan, displayWord,words,hint):
+    def display(self,words,hint):
         toDisplay = [] # list to take in items that i will dynamically show.
+        tries=0
 
         root = Tk()
         frame= tk.Frame(root, padx=7, pady=7)
@@ -259,20 +252,24 @@ class Web_Scrape:
         root.grid_columnconfigure(2, weight=1)
         root.grid_rowconfigure(2, weight=1)
 
-        toDisplay = self.playGame(self, words, hint, tries=0)
+        toDisplay = self.playGame(self, words, hint,tries, toDisplay)
         print(toDisplay)
 
         lblRules =tk.Label(frame, text = "Rules")
         lblInputName= tk.Label(frame, text=" Input: ")
         lblHintName = tk.Label(frame, text = "Hint: ")
         lblDisplayWord= tk.Label(frame, text=toDisplay[0])
-        lblman= tk.Label(frame, text = " Placeholder")
-        lblHintExplained = tk.Label(frame, text = "Placeholder")
+        lblman= tk.Label(frame, text = " ")
+        num=(toDisplay[1])
+        print(num)
+        lblHintExplained = tk.Label(frame, text = hint[num] )
         entryInput = tk.Entry(frame)
         btnSubmit = tk.Button(frame, text = "Save", background="Green")
         btnQuit = tk.Button(frame, text="Quit,", background = "Red")
 
 
+        #pass what i need to change which is the man , the user guessed letters , and
+        #list of TK objects
 
 
 
@@ -288,7 +285,21 @@ class Web_Scrape:
         entryInput.grid(column=2,row=5)
         btnSubmit.grid(column = 3, row = 6)
         btnQuit.grid(column=4, row = 6)
+
+
+        btnQuit.bind('<Button-1>', quit)
+
+
+
+        # Events
+
         root.mainloop()
+
+    def quit(event):
+        SystemExit()
+
+
+
 
 
 
