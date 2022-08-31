@@ -272,7 +272,7 @@ class Web_Scrape:
         entryInput = tk.Entry(frame)
         btnSubmit = tk.Button(frame, text = "Save", background="Green")
         btnQuit = tk.Button(frame, text="Quit", background = "Red")
-        btnShowRules = tk.Button(frame, text="Rules", command="show_rules")
+        btnShowRules = tk.Button(frame, text="Rules", command=self.show_rules)
 
         #pass what i need to change which is the man , the user guessed letters , and
         #list of TK objects
@@ -295,7 +295,7 @@ class Web_Scrape:
 
 
         btnQuit.bind('<Button-1>', quit)
-        btnShowRules.bind('<Button-3>',self.show_rules)
+        btnShowRules.bind('<Button-3>',self.show_rules(self))
 
 
 
@@ -306,7 +306,7 @@ class Web_Scrape:
     def quit(event):
         SystemExit()
 
-    def show_rules(event):
+    def show_rules(self):
         answer= askokcancel(
             title = " Rules",
             message = '\nyou Get 7 Tries \n'
