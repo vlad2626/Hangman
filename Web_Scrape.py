@@ -2,6 +2,7 @@
 # soup.select('td > th') all TD elements that are directly in a th element.
 import tkinter as tk
 from tkinter import Tk
+from tkinter.messagebox import askokcancel
 from typing import List
 
 import requests
@@ -246,7 +247,10 @@ class Web_Scrape:
         tries=0
 
         root = Tk()
+
+
         frame= tk.Frame(root, padx=7, pady=7)
+
         root.title("Hangman Game")
         frame.grid(column=0, row =0)
         root.grid_columnconfigure(2, weight=1)
@@ -255,18 +259,20 @@ class Web_Scrape:
         toDisplay = self.playGame(self, words, hint,tries, toDisplay)
         print(toDisplay)
 
-        lblRules =tk.Label(frame, text = "Rules")
+
         lblInputName= tk.Label(frame, text=" Input: ")
         lblHintName = tk.Label(frame, text = "Hint: ")
         lblDisplayWord= tk.Label(frame, text=toDisplay[0])
         lblman= tk.Label(frame, text = " ")
+
         num=(toDisplay[1])
-        print(num)
-        lblHintExplained = tk.Label(frame, text = hint[num] )
+        num2 =int(toDisplay[1])
+        print(num2)
+        lblHintExplained = tk.Label(frame, text = hint[num2] )
         entryInput = tk.Entry(frame)
         btnSubmit = tk.Button(frame, text = "Save", background="Green")
-        btnQuit = tk.Button(frame, text="Quit,", background = "Red")
-
+        btnQuit = tk.Button(frame, text="Quit", background = "Red")
+        btnShowRules = tk.Button(frame, text="Rules", command="show_rules")
 
         #pass what i need to change which is the man , the user guessed letters , and
         #list of TK objects
@@ -276,7 +282,7 @@ class Web_Scrape:
 
 
 
-        lblRules.grid(column=1, row=2)
+
         lblHintName.grid(column=1, row=4)
         lblInputName.grid(column=1, row=5)
         lblDisplayWord.grid(column=2, row = 2)
@@ -285,9 +291,11 @@ class Web_Scrape:
         entryInput.grid(column=2,row=5)
         btnSubmit.grid(column = 3, row = 6)
         btnQuit.grid(column=4, row = 6)
+        btnShowRules.grid(column=1, row=0)
 
 
         btnQuit.bind('<Button-1>', quit)
+        btnShowRules.bind('<Button-3>',self.show_rules)
 
 
 
@@ -297,6 +305,19 @@ class Web_Scrape:
 
     def quit(event):
         SystemExit()
+
+    def show_rules(event):
+        answer= askokcancel(
+            title = " Rules",
+            message = '\nyou Get 7 Tries \n'
+            '\n1 hint per word \n'
+            '\nPress 1:Guess the whole word\n '
+            '\nPress 2:Guess by Letter \n'
+            '\nPress 3:To skip word \n'
+            '\nPress 4 to end game\n'
+            '\nnow let us Begin!!\n'
+            '\n Default is guess by word'
+        )
 
 
 
