@@ -95,36 +95,22 @@ class Web_Scrape:
         tries = 0
         randomNum = random.randint(1, 87)
         answer = words[randomNum]
-        print(answer)
-        print(hint[randomNum])
+
         toDisplay.append(answer)
         toDisplay.append(randomNum)
-        print(
-            '\nyou Get 7 Tries \n'
-            '\n1 hint per word \n'
-            '\nPress 1:Guess the whole word\n '
-            '\nPress 2:Guess by Letter \n'
-            '\nPress 3:To skip word \n'
-            '\nPress 4 to end game\n'
-            '\nnow let us Begin!!\n'
-            '\n Default is guess by word')
-        userAnswer = " "
+
         #while true
-        self.generateWord(self ,words, hint, randomNum)
-        if userAnswer =='1':
-             self.guessWord(self ,userAnswer, answer ,tries )
-        elif userAnswer =='2':
-            self.guessByLetter(self ,answer ,tries,toDisplay)
-        elif userAnswer =='3':
-            self.playGame(self ,words ,hint, 0)
-        elif userAnswer == '4':
-            print("Thank you for playing")
-        else:
-           toDisplay= self.guessByLetter(self, answer, tries,toDisplay)
+        # self.generateWord(self ,words, hint, randomNum)
+        # if userAnswer =='1':
+        #      self.guessWord(self ,userAnswer, answer ,tries )
+        # elif userAnswer =='2':
+        #     self.guessByLetter(self ,answer ,tries,toDisplay)
+        # elif userAnswer =='3':
+        #     self.playGame(self ,words ,hint, 0)
+        # elif userAnswer == '4':
+        #     print("Thank you for playing")
 
-
-
-
+        toDisplay= self.guessByLetter(self, answer, tries,toDisplay)
         return toDisplay
 
 
@@ -197,7 +183,7 @@ class Web_Scrape:
         for i in range(len(correctLetters)):
             correctGuess.append(" ")
         while tries < 9:
-            letterGuessed = input(">").lower()
+            letterGuessed = " "
             if letterGuessed == "0":
                 self.guessWord(self,letterGuessed,answer,tries)
 
