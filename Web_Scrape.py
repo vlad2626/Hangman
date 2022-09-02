@@ -21,14 +21,6 @@ class Web_Scrape:
 
 
 
-
-
-
-
-
-
-
-
     @classmethod
     def main(self):
 
@@ -257,14 +249,14 @@ class Web_Scrape:
         lblHintExplained = tk.Label(frame, text = hint[num2] )
         entryInput = tk.Entry(frame)
         btnSubmit = tk.Button(frame, text = "Save", background="Green")
-        btnQuit = tk.Button(frame, text="Quit", background = "Red", command=self.quitGame(event="Click"))
+        btnQuit = tk.Button(frame, text="Quit", background = "Red")
         btnShowRules = tk.Button(frame, text="Rules")
 
         #pass what i need to change which is the man , the user guessed letters , and
         #list of TK objects
 
-
-
+        btnQuit.bind("<2>", self.quitGame)
+        btnShowRules.bind("<Button-1>", self.showRules)
 
 
 
@@ -288,17 +280,21 @@ class Web_Scrape:
 
 
 
+
+
         # Events
 
-        root.mainloop()
+        self.root.mainloop() \
+ \
 
-    def quitGame(event):
-        print(" its a cruel world")
-        SystemExit
+    def quitGame(self):
+        print("Quit button does not yet work")
 
 
 
-    def showRules(event):
+
+
+    def showRules(self):
         answer= askokcancel(
             title = " Rules",
             message = '\nyou get 7 Tries \n'
