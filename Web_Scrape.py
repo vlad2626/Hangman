@@ -284,7 +284,7 @@ class Web_Scrape:
 
         # Events
 
-        self.root.mainloop() \
+        root.mainloop() \
  \
 
     def quitGame(self):
@@ -304,7 +304,8 @@ class Web_Scrape:
             '\nPress 3:To skip word \n'
             '\nPress 4 to end game\n'
             '\nnow let us Begin!!\n'
-            '\n Default is guess by word'
+            '\n Default is guess by word\n'
+            "Press 0 to guess by the letter"
         )
 
 
