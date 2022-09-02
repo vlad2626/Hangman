@@ -257,8 +257,8 @@ class Web_Scrape:
         lblHintExplained = tk.Label(frame, text = hint[num2] )
         entryInput = tk.Entry(frame)
         btnSubmit = tk.Button(frame, text = "Save", background="Green")
-        btnQuit = tk.Button(frame, text="Quit", background = "Red")
-        btnShowRules = tk.Button(frame, text="Rules", command=self.show_rules)
+        btnQuit = tk.Button(frame, text="Quit", background = "Red", command=self.quitGame(event="Click"))
+        btnShowRules = tk.Button(frame, text="Rules")
 
         #pass what i need to change which is the man , the user guessed letters , and
         #list of TK objects
@@ -275,13 +275,16 @@ class Web_Scrape:
         lblman.grid(column=2, row=3)
         lblHintExplained.grid(column=2, row=4)
         entryInput.grid(column=2,row=5)
+
+        # btnQuit.bind('<Button-1>', self.quitGame())
+        # btnShowRules.bind('<Button-2>', self.showRules())
+
         btnSubmit.grid(column = 3, row = 6)
         btnQuit.grid(column=4, row = 6)
         btnShowRules.grid(column=1, row=0)
 
 
-        btnQuit.bind('<Button-1>', quit)
-        btnShowRules.bind('<Button-3>',self.show_rules(self))
+
 
 
 
@@ -289,13 +292,16 @@ class Web_Scrape:
 
         root.mainloop()
 
-    def quit(event):
-        SystemExit()
+    def quitGame(event):
+        print(" its a cruel world")
+        SystemExit
 
-    def show_rules(self):
+
+
+    def showRules(event):
         answer= askokcancel(
             title = " Rules",
-            message = '\nyou Get 7 Tries \n'
+            message = '\nyou get 7 Tries \n'
             '\n1 hint per word \n'
             '\nPress 1:Guess the whole word\n '
             '\nPress 2:Guess by Letter \n'
