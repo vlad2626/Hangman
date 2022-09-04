@@ -88,19 +88,9 @@ class Web_Scrape:
         randomNum = random.randint(1, 87)
         answer = words[randomNum]
 
-        toDisplay.append(answer)
-        toDisplay.append(randomNum)
 
-        #while true
-        # self.generateWord(self ,words, hint, randomNum)
-        # if userAnswer =='1':
-        #      self.guessWord(self ,userAnswer, answer ,tries )
-        # elif userAnswer =='2':
-        #     self.guessByLetter(self ,answer ,tries,toDisplay)
-        # elif userAnswer =='3':
-        #     self.playGame(self ,words ,hint, 0)
-        # elif userAnswer == '4':
-        #     print("Thank you for playing")
+
+
 
         toDisplay= self.guessByLetter(self, answer, tries,toDisplay)
         return toDisplay
@@ -109,48 +99,15 @@ class Web_Scrape:
 
 
     # this method validates user answer
-    def guessWord(self ,userAnswer, answer ,tries):
-        # this method validates the user answer
-        # it starts by check if it is correct and if its not correct
-        #     it adds to tries and give user the option to restart
+    def guessWord(self,entry, toDisplay, answer, frame):
 
+        wonGame=False
 
-        if userAnswer == answer:
-            print("Congratulations !! you got it \n Do you want to keep playing (Y/N) ")
-            replay= input('WholeWord>').lower()
-
-            return replay
-
+        if entry == answer:
+            askokcancel(title="Winner", message = " Congratulations Winner")
+            wonGame
         else:
-            # regardless if this is fist atempt or not , the user gets to try again
-            print("Guess the word , press 0 at anytime to guess by letter")
-            tries += 1
-            userAnswer = input("Whole Word >").lower()
-            if userAnswer == answer:
-                print("You got it !!!")
-                tries = 0
-                print("Try again ? (Y/N)")
-                replay = input("Whole Word>").lower()
-                replay = replay.strip()
-                return replay
-            elif userAnswer == "0":
-                self.guessByLetter(self, answer, tries)
-            else:
-                tries += 1
-                print("Better luck next time\n "
-                      "Try again ? (Y/N)")
-                replay= input("Whole Word>").lower()
-                replay = replay.strip()
-
-                while tries <= 9:
-                    if replay != "y" or tries == 9:
-                        print("End of game")
-                        break
-                    elif replay == "y" and tries <= 9:
-                            self.guessWord(self, userAnswer, answer, tries)  # user neeeds to try again ,
-                    else:
-                        break
-            return replay
+            askokcancel(title="Loser", message="Loooooserrrrr")
 
 
 
@@ -159,29 +116,13 @@ class Web_Scrape:
 
         a = words[randomNum]
 
-    def guessByLetter(self, answer, tries, toDisplay):
-        # this method user picks a letter
-        #  validate letter wheather its a vowel or consonant
-        # tells the user if its right and the number of tries.
-        # if guessed corectly user wins hangman ,
-        # if not man is hanged
-        # this needs to be in a while loop
-
-        letters = ""
-        print("Guess by letter , you have 9 tries, press 0 at any time to guess the whole world. ")
+    def guessByLetter(self, entry,toDisplay, answer, frame):
+        letters = " "
         correctGuess = []
         correctLetters = list(answer)
         totalGuessed =0
         for i in range(len(correctLetters)):
             correctGuess.append(" ")
-        while tries < 9:
-            letterGuessed = " "
-            if letterGuessed == "0":
-                self.guessWord(self,letterGuessed,answer,tries)
-
-
-
-            #find size of correct letter , add enough placeholders to match both dictionary then use the index to update the display dict
 
 
             foundLetter = False
@@ -189,7 +130,7 @@ class Web_Scrape:
             # checks found letter against the correct lettrs.
             for i in range(len(answer)):
                 index += 1
-                if correctLetters[i].lower() == letterGuessed:
+                if correctLetters[i].lower() == entry:
                     foundLetter = True
                     totalGuessed+=1
                     correctGuess[index] = correctLetters[index]
@@ -197,36 +138,27 @@ class Web_Scrape:
 
             # Further validation
             if foundLetter:
-
                 for j in correctGuess:
                     letters += j
                 print("Correct !! : {}".format(letters))
-            else:
-                tries += 1
-                print("No Dice \n The man lost {} body parts".format(tries))
+
             if totalGuessed == len(correctLetters) :
                 print("Congrats you Won or" )
-            elif tries == 9:
-                print("Ran out of tries!!!!")
-                break
 
-            # print("Play again ? y/n")
-            # replay = input(">")
-            # toDisplayLetter = ""
-            # for i in correctGuess:
-            #     toDisplayLetter += i
-            # toDisplay[] = toDisplayLetter # update index 1 to show the letters
-
-            return toDisplay
+            return correctGuess
 
 
     def display(self,words,hint):
         toDisplay = [] # list to take in items that i will dynamically show.
         tries=0
 
+        randomNum = random.randint(1, 87)
+        answer = words[randomNum]
+        hints = hint[randomNum]
+
         root = Tk()
 
-
+        toDisplay.append("        ")  # initialize
         frame= tk.Frame(root, padx=7, pady=7)
 
         root.title("Hangman Game")
@@ -234,8 +166,7 @@ class Web_Scrape:
         root.grid_columnconfigure(2, weight=1)
         root.grid_rowconfigure(2, weight=1)
 
-        toDisplay = self.playGame(self, words, hint,tries, toDisplay)
-        print(toDisplay)
+
 
 
         lblInputName= tk.Label(frame, text=" Input: ")
@@ -243,21 +174,26 @@ class Web_Scrape:
         lblDisplayWord= tk.Label(frame, text=toDisplay[0])
         lblman= tk.Label(frame, text = " ")
 
-        num=(toDisplay[1])
-        num2 =int(toDisplay[1])
-        print(num2)
-        lblHintExplained = tk.Label(frame, text = hint[num2] )
+
+        lblHintExplained = tk.Label(frame, text = hint[randomNum] )
         entryInput = tk.Entry(frame)
-        btnSubmit = tk.Button(frame, text = "Save", background="Green")
+        btnSkip = tk.Button(frame, text="Skip", command=lambda : self.skip(self, words, hint, randomNum))
+        btnMode = tk.Button(frame, text = "Whole word", command= lambda :self.mode(self, btnMode, frame ))
+
+
+
+        mode = btnMode.cget("text")
+        btnSubmit = tk.Button(frame, text = "Submit", background="Green", command=lambda : self.validate(self, entryInput,toDisplay,answer, frame,mode))
         btnQuit = tk.Button(frame, text="Quit", background = "Red")
         btnShowRules = tk.Button(frame, text="Rules")
 
         #pass what i need to change which is the man , the user guessed letters , and
         #list of TK objects
 
-        btnQuit.bind("<2>", self.quitGame)
-        btnShowRules.bind("<Button-1>", self.showRules)
-
+        btnQuit.bind('<Button-1>', self.quitGame)
+        btnShowRules.bind('<Button-1>', self.showRules)
+        #btnSubmit.bind('<Button-1>', self.validate(self,entryInput))
+        btnSkip.bind('<1>', self.skip)
 
 
 
@@ -268,12 +204,13 @@ class Web_Scrape:
         lblHintExplained.grid(column=2, row=4)
         entryInput.grid(column=2,row=5)
 
-        # btnQuit.bind('<Button-1>', self.quitGame())
-        # btnShowRules.bind('<Button-2>', self.showRules())
 
+
+        btnSkip.grid(column=2, row=6)
         btnSubmit.grid(column = 3, row = 6)
         btnQuit.grid(column=4, row = 6)
         btnShowRules.grid(column=1, row=0)
+        btnMode.grid(column=1, row=1)
 
 
 
@@ -284,13 +221,38 @@ class Web_Scrape:
 
         # Events
 
-        root.mainloop() \
- \
+        root.mainloop()
+
+    def mode(self, btnMode, frame):
+        textMode = btnMode.cget("text")
+
+        if textMode == "Whole word":
+            btnMode.config(text="By Letter")
+            mode = "By letter"
+        else:
+            btnMode.config(text="Whole word")
+
+        return textMode
 
     def quitGame(self):
-        print("Quit button does not yet work")
+        askokcancel(title="Quit game", message="Quit doenst work yet")
+
+    def validate(self, entryInput,toDisplay,answer, frame,mode):
+        askokcancel(message=mode)
+        entry = entryInput.get()
+        if mode == "By Letter":
+           toDisplay[0]=self.guessByLetter(self,entry,toDisplay, answer, frame)
+        else:
+          toDisplay[0]=self.guessWord(self, entry, toDisplay, answer, frame)
+        return toDisplay[0]
 
 
+
+
+
+
+    def skip(self, word, hint, randomNum):
+        print(" waiting to code")
 
 
 
