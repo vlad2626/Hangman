@@ -116,36 +116,36 @@ class Web_Scrape:
 
         a = words[randomNum]
 
-    def guessByLetter(self, entry,toDisplay, answer, frame):
-        letters = " "
-        correctGuess = []
-        correctLetters = list(answer)
-        totalGuessed =0
-        for i in range(len(correctLetters)):
-            correctGuess.append(" ")
+    def guessByLetter(self, entry,lblDisplayWord, answer, frame):
+            letters = " "
+            correctGuess = [] # list for the user correct letters.
+            correctLetters = list(answer)
+            totalGuessed =0
+
+            # a bunch of spaces for the placeholder list.
+            for i in range(len(correctLetters)):
+                correctGuess.append(" ")
+                foundLetter = False
+                index = -1
+                # checks found letter against the correct letters.
+                for i in range(len(answer)):
+                    index += 1
+                    if correctLetters[i].lower() == entry:
+                        foundLetter = True
+                        totalGuessed+=1
+                        correctGuess[index] = correctLetters[index]
 
 
-            foundLetter = False
-            index = -1
-            # checks found letter against the correct lettrs.
-            for i in range(len(answer)):
-                index += 1
-                if correctLetters[i].lower() == entry:
-                    foundLetter = True
-                    totalGuessed+=1
-                    correctGuess[index] = correctLetters[index]
+
+                # add letter sinto a string to display
+                if foundLetter:
+                    for j in correctGuess:
+                        letters += j
+
+            lblDisplayWord.config(text = letters)
 
 
-            # Further validation
-            if foundLetter:
-                for j in correctGuess:
-                    letters += j
-                print("Correct !! : {}".format(letters))
 
-            if totalGuessed == len(correctLetters) :
-                print("Congrats you Won or" )
-
-            return correctGuess
 
 
     def display(self,words,hint):
@@ -171,7 +171,7 @@ class Web_Scrape:
 
         lblInputName= tk.Label(frame, text=" Input: ")
         lblHintName = tk.Label(frame, text = "Hint: ")
-        lblDisplayWord= tk.Label(frame, text=toDisplay[0])
+        lblDisplayWord= tk.Label(frame, text= answer)
         lblman= tk.Label(frame, text = " ")
 
 
@@ -185,9 +185,23 @@ class Web_Scrape:
 
 
 
-        btnSubmit = tk.Button(frame, text = "Submit", background="Green", command=lambda : self.validate(self, entryInput,toDisplay,answer, frame,mode))
+        btnSubmit = tk.Button(frame, text = "Submit", background="Green", command=lambda : self.validate(self, entryInput,lblDisplayWord,answer, frame,mode))
         btnQuit = tk.Button(frame, text="Quit", background = "Red")
         btnShowRules = tk.Button(frame, text="Rules")
+
+        lblHintName.grid(column=1, row=4)
+        lblInputName.grid(column=1, row=5)
+        lblDisplayWord.grid(column=2, row=2)
+        lblman.grid(column=2, row=3)
+        lblHintExplained.grid(column=2, row=4)
+        entryInput.grid(column=2, row=5)
+
+        btnSkip.grid(column=2, row=6)
+        btnSubmit.grid(column=3, row=6)
+        btnQuit.grid(column=4, row=6)
+        btnShowRules.grid(column=1, row=0)
+        btnMode.grid(column=1, row=1)
+
 
         #pass what i need to change which is the man , the user guessed letters , and
         #list of TK objects
@@ -199,18 +213,7 @@ class Web_Scrape:
 
 
 
-        lblHintName.grid(column=1, row=4)
-        lblInputName.grid(column=1, row=5)
-        lblDisplayWord.grid(column=2, row = 2)
-        lblman.grid(column=2, row=3)
-        lblHintExplained.grid(column=2, row=4)
-        entryInput.grid(column=2,row=5)
 
-        btnSkip.grid(column=2, row=6)
-        btnSubmit.grid(column = 3, row = 6)
-        btnQuit.grid(column=4, row = 6)
-        btnShowRules.grid(column=1, row=0)
-        btnMode.grid(column=1, row=1)
 
 
 
@@ -239,14 +242,15 @@ class Web_Scrape:
     def quitGame(self):
         askokcancel(title="Quit game", message="Quit doenst work yet")
 
-    def validate(self, entryInput,toDisplay,answer, frame,mode):
-        askokcancel(message=mode)
+    def validate(self, entryInput,lblDisplayWord,answer, frame,mode):
+        askokcancel(message=mode.cget("text"))
         entry = entryInput.get()
-        if mode == "By Letter":
-           toDisplay[0]=self.guessByLetter(self,entry,toDisplay, answer, frame)
+        modeToPlay = mode.cget("text")
+        if modeToPlay == "By Letter":
+           self.guessByLetter(self,entry,lblDisplayWord, answer, frame)
         else:
-          toDisplay[0]=self.guessWord(self, entry, toDisplay, answer, frame)
-        return toDisplay[0]
+          self.guessWord(self, entry, lblDisplayWord, answer, frame)
+
 
 
 
