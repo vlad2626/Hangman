@@ -178,11 +178,13 @@ class Web_Scrape:
         lblHintExplained = tk.Label(frame, text = hint[randomNum] )
         entryInput = tk.Entry(frame)
         btnSkip = tk.Button(frame, text="Skip", command=lambda : self.skip(self, words, hint, randomNum))
-        btnMode = tk.Button(frame, text = "Whole word", command= lambda :self.mode(self, btnMode, frame ))
+        mode = ""
+        btnMode = tk.Button(frame, text = mode, command= lambda :self.mode(self, btnMode))
+        mode= self.mode(self, btnMode)
 
 
 
-        mode = btnMode.cget("text")
+
         btnSubmit = tk.Button(frame, text = "Submit", background="Green", command=lambda : self.validate(self, entryInput,toDisplay,answer, frame,mode))
         btnQuit = tk.Button(frame, text="Quit", background = "Red")
         btnShowRules = tk.Button(frame, text="Rules")
@@ -204,8 +206,6 @@ class Web_Scrape:
         lblHintExplained.grid(column=2, row=4)
         entryInput.grid(column=2,row=5)
 
-
-
         btnSkip.grid(column=2, row=6)
         btnSubmit.grid(column = 3, row = 6)
         btnQuit.grid(column=4, row = 6)
@@ -223,16 +223,18 @@ class Web_Scrape:
 
         root.mainloop()
 
-    def mode(self, btnMode, frame):
+    def mode(self, btnMode):
         textMode = btnMode.cget("text")
+        # swhich it to opposite.
 
         if textMode == "Whole word":
             btnMode.config(text="By Letter")
             mode = "By letter"
         else:
             btnMode.config(text="Whole word")
+            textMode="Whole word"
 
-        return textMode
+        return btnMode
 
     def quitGame(self):
         askokcancel(title="Quit game", message="Quit doenst work yet")
